@@ -3,12 +3,28 @@
 
 ## Overview
 
-This repository contains the complete workflow for preparing data and fine-tuning a language model, as part of the FIAP Tech Challenge (Phase 03). The process is divided into two main stages:
+This repository contains the complete workflow for preparing data and fine-tuning a language model, as part of the FIAP Tech Challenge (Phase 03). The process is divided into two main stages: **Data Preparation** and **Fine-Tuning**.
 
-1. **Data Preparation** (`data_preparation.ipynb`)
-2. **Fine-Tuning** (`fine_tuning.ipynb`)
+To facilitate execution, the project includes both a **complete notebook** that runs the entire fine-tuning workflow (training, inference, and comparison with base model) and **separate notebooks** for individual tasks, allowing you to execute each step independently by simply clicking "Run All" in Google Colab.
 
-Each stage is implemented in a dedicated Jupyter Notebook, with clear, reproducible steps and code. This README provides a comprehensive guide to the workflow, requirements, and usage.
+### Available Notebooks:
+
+#### Data Preparation:
+1. **`data_preparation.ipynb`** - Data cleaning and preparation
+
+#### Fine-Tuning - Complete Workflow:
+2. **`complete fine_tuning.ipynb`** - Complete fine-tuning process including:
+   - Training
+   - Inference with the fine-tuned model
+   - Inference with model saved in Google Drive
+   - Inference comparing with the base model
+
+#### Fine-Tuning - Separated Tasks (for individual execution):
+3. **`fine_tuning.ipynb`** - Training only
+4. **`fine-tunig saved model.ipynb`** - Inference with model saved in Google Drive
+5. **`base model.ipynb`** - Inference with base model for comparison
+
+Each notebook is designed to run independently in Google Colab, with "Open in Colab" badges for easy access.
 
 ---
 
@@ -54,79 +70,207 @@ Prepare and clean the raw dataset for use in language model fine-tuning. This in
 
 ---
 
-## 2. Fine-Tuning (`fine_tuning.ipynb`)
+## 2. Fine-Tuning
 
-### Purpose
-Use the prepared dataset to fine-tune a language model for question-answering or similar NLP tasks.
+### Complete Workflow (`complete fine_tuning.ipynb`)
 
-### Steps
+#### Purpose
+Execute the entire fine-tuning workflow in a single notebook, from training to inference and comparison with the base model.
 
-1. **Setup and Imports**
-	- Import necessary libraries for model training (e.g., Hugging Face Transformers, PyTorch, or other frameworks as required).
+#### Steps
 
-2. **Load Prepared Data**
-	- Load the `trn_finetune.jsonl` file generated in the data preparation step.
+1. **Mount Google Drive**
+	- Mount Google Drive to access datasets and save models.
 
-3. **Model Selection and Configuration**
-	- Choose a pre-trained language model suitable for fine-tuning (e.g., GPT, BERT, etc.).
-	- Configure training parameters (batch size, learning rate, epochs, etc.).
+2. **Format Dataset**
+	- Load and format the `trn_finetune.jsonl` file generated in the data preparation step.
+	- Transform data into the format required for training.
 
-4. **Fine-Tuning Process**
+3. **Install Dependencies**
+	- Install required libraries (unsloth, transformers, datasets, etc.).
+
+4. **Setup and Model Configuration**
+	- Load a pre-trained language model (e.g., Llama, GPT-based models).
+	- Configure LoRA (Low-Rank Adaptation) parameters for efficient fine-tuning.
+	- Set up training parameters (batch size, learning rate, epochs, etc.).
+
+5. **Fine-Tuning Process**
 	- Tokenize the prompt/completion pairs.
-	- Train the model on the dataset.
-	- Monitor training metrics and adjust parameters as needed.
+	- Train the model on the dataset using the configured parameters.
+	- Monitor training metrics (loss, learning rate, etc.).
 
-5. **Evaluation and Saving**
-	- Evaluate the fine-tuned model on validation data (if available).
-	- Save the trained model and any relevant artifacts.
+6. **Save Model**
+	- Save the fine-tuned model to Google Drive for future use.
 
-### Output
-- Fine-tuned model weights and configuration files.
-- Training logs and evaluation metrics.
+7. **Run Inference**
+	- Test the fine-tuned model with sample prompts.
+	- Generate responses and evaluate quality.
+
+8. **Compare with Base Model**
+	- Load the base (non-fine-tuned) model.
+	- Run the same prompts on the base model.
+	- Compare outputs between fine-tuned and base models.
+
+#### Output
+- Fine-tuned model weights saved to Google Drive
+- Training logs and metrics
+- Inference results from both fine-tuned and base models
+- Performance comparison
+
+---
+
+### Separated Tasks (for independent execution)
+
+For more flexibility, the fine-tuning process is also available as separate notebooks:
+
+#### 2a. Training Only (`fine_tuning.ipynb`)
+
+**Purpose:** Focus only on training the model without inference.
+
+**Key Steps:**
+- Mount Google Drive
+- Format dataset
+- Install dependencies
+- Configure and train the model
+- Save model to Google Drive
+
+**Output:**
+- Fine-tuned model weights and configuration files
+- Training logs and metrics
+
+#### 2b. Inference with Saved Model (`fine-tunig saved model.ipynb`)
+
+**Purpose:** Run inference using a model previously saved to Google Drive.
+
+**Key Steps:**
+- Mount Google Drive
+- Install dependencies
+- Load the saved fine-tuned model from Google Drive
+- Run inference with sample prompts
+- Generate and display responses
+
+**Output:**
+- Inference results from the fine-tuned model
+
+#### 2c. Base Model Inference (`base model.ipynb`)
+
+**Purpose:** Run inference using the base (non-fine-tuned) model for comparison purposes.
+
+**Key Steps:**
+- Mount Google Drive
+- Install dependencies
+- Load the base model
+- Run inference with sample prompts
+- Generate and display responses
+
+**Output:**
+- Inference results from the base model
+- Baseline for comparing with fine-tuned model performance
 
 ---
 
 ## Requirements
 
 - Python 3.7+
-- Jupyter Notebook
+- Google Colab (recommended) or Jupyter Notebook
+- Google Drive account (for storing datasets and models)
 - pandas, numpy
-- ijson
-- (For fine-tuning) Hugging Face Transformers, PyTorch or TensorFlow (as required)
+- ijson (for data preparation)
+- unsloth, transformers, datasets, torch (for fine-tuning)
 
-Install dependencies with:
+**Note:** All dependencies are installed automatically within the notebooks. If running locally, install with:
 
 ```bash
-pip install pandas numpy ijson transformers torch
+pip install pandas numpy ijson transformers torch datasets
+pip install "unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git"
 ```
 
 ---
 
 ## Usage
 
-1. **Clone the repository:**
+### Quick Start (Recommended)
+
+The easiest way to run the project is using Google Colab:
+
+1. **Clone the repository (optional for reference):**
 	```bash
 	git clone https://github.com/renato-penna/fiap-tech-challenge-fase03.git
-	cd fiap-tech-challenge-fase03
 	```
 
-2. **Open and run `data_preparation.ipynb`:**
-	- Follow the notebook cells to prepare and clean your dataset.
-	- Ensure the output file `trn_finetune.jsonl` is generated.
+2. **Open notebooks directly in Google Colab:**
+	- Each notebook has an "Open in Colab" badge at the top
+	- Click the badge to open the notebook in Google Colab
+	- Click "Runtime" → "Run all" to execute the entire notebook
 
-3. **Open and run `fine_tuning.ipynb`:**
-	- Use the prepared dataset to fine-tune your chosen language model.
-	- Save the resulting model and artifacts.
+### Workflow Options
+
+#### Option 1: Complete Workflow (All-in-One)
+
+Best for running the entire pipeline from start to finish:
+
+1. **Run `data_preparation.ipynb`:**
+   - Opens in Colab → Click "Run all"
+   - Prepares and cleans the dataset
+   - Generates `trn_finetune.jsonl`
+
+2. **Run `complete fine_tuning.ipynb`:**
+   - Opens in Colab → Click "Run all"
+   - Performs training, inference, and comparison with base model
+   - Saves model to Google Drive
+   - Displays comparison results
+
+#### Option 2: Separated Tasks (Step-by-Step)
+
+Best for understanding each step individually or running specific tasks:
+
+1. **Run `data_preparation.ipynb`:**
+   - Opens in Colab → Click "Run all"
+   - Generates `trn_finetune.jsonl`
+
+2. **Run `fine_tuning.ipynb`:**
+   - Opens in Colab → Click "Run all"
+   - Trains the model and saves to Google Drive
+
+3. **Run `fine-tunig saved model.ipynb`:**
+   - Opens in Colab → Click "Run all"
+   - Loads saved model and runs inference
+
+4. **Run `base model.ipynb`:**
+   - Opens in Colab → Click "Run all"
+   - Runs inference with base model for comparison
+
+### Tips
+
+- **Google Drive:** Make sure to mount your Google Drive when prompted in the notebooks
+- **Runtime:** Select GPU runtime in Colab (Runtime → Change runtime type → GPU) for faster training
+- **Dataset:** Ensure your dataset is uploaded to the correct path in Google Drive (`/content/drive/MyDrive/Fiap/trn.json`)
+- **Run All:** All notebooks are designed to work with "Run all" - no manual cell execution needed
 
 ---
 
 ## Project Structure
 
 ```
-├── data_preparation.ipynb   # Data cleaning and preparation notebook
-├── fine_tuning.ipynb        # Model fine-tuning notebook
-├── README.md                # Project documentation
+├── data_preparation.ipynb          # Data cleaning and preparation
+├── complete fine_tuning.ipynb      # Complete workflow: training + inference + comparison
+├── fine_tuning.ipynb               # Training only (separated task)
+├── fine-tunig saved model.ipynb    # Inference with saved model (separated task)
+├── base model.ipynb                # Inference with base model (separated task)
+└── README.md                       # Project documentation
 ```
+
+### Notebook Descriptions
+
+- **`data_preparation.ipynb`**: Prepares the raw dataset, filters and cleans data, and creates prompt/completion pairs for training.
+
+- **`complete fine_tuning.ipynb`**: All-in-one notebook that includes data formatting, model training, saving to Google Drive, inference with the fine-tuned model, and comparison with the base model.
+
+- **`fine_tuning.ipynb`**: Focuses solely on training the model. Use this if you want to train the model separately without running inference.
+
+- **`fine-tunig saved model.ipynb`**: Loads a previously trained model from Google Drive and runs inference. Useful for testing a saved model without retraining.
+
+- **`base model.ipynb`**: Runs inference using the base (non-fine-tuned) model. Useful for establishing a baseline and comparing with fine-tuned results.
 
 ---
 
