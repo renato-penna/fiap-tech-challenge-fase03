@@ -272,7 +272,7 @@ Best for understanding each step individually or running specific tasks:
 
 - **`base model.ipynb`**: Runs inference using the base (non-fine-tuned) model. Useful for establishing a baseline and comparing with fine-tuned results.
 
----
+----
 
 ## License
 
