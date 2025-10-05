@@ -93,6 +93,42 @@ Execute the entire fine-tuning workflow in a single notebook, from training to i
 	- Load a pre-trained language model (e.g., Llama, GPT-based models).
 	- Configure LoRA (Low-Rank Adaptation) parameters for efficient fine-tuning.
 	- Set up training parameters (batch size, learning rate, epochs, etc.).
+	**Parameters for each atempt** (files available in https://drive.google.com/drive/folders/1RzkWy3StDKgjLPwe17r2_JQJYX9LB5aY?usp=drive_link)
+		**file: lora_model** (wandb: exalted-surf-1)
+			## LoRA
+				- r = 16
+				- lora_alpha = 16
+				- lora_dropout = 0
+
+			## SFTTrainer
+				- per_device_train_batch_size = 2
+				- gradient_accumulation_steps = 4
+				- max_steps = 60
+				- learning_rate = 2e-4
+				
+		**file: lora_model2** (wandb: misunderstood-night-2)
+			## LoRA
+				- r = 32
+				- lora_alpha = 32
+				- lora_dropout = 0.05
+
+			## SFTTrainer
+				- per_device_train_batch_size = 3
+				- gradient_accumulation_steps = 6
+				- max_steps = 120
+				- learning_rate = 1e-4
+				
+		**file: lora_model3** (wandb: desert-waterfall-3)
+			## LoRA
+				- r = 32
+				- lora_alpha = 32
+				- lora_dropout = 0.05
+
+			## SFTTrainer
+				- per_device_train_batch_size = 4
+				- gradient_accumulation_steps = 8
+				- max_steps = 180
+				- learning_rate = 1e-5
 
 5. **Fine-Tuning Process**
 	- Tokenize the prompt/completion pairs.
@@ -141,6 +177,9 @@ For more flexibility, the fine-tuning process is also available as separate note
 #### 2b. Inference with Saved Model (`fine-tunig saved model.ipynb`)
 
 **Purpose:** Run inference using a model previously saved to Google Drive.
+
+**Download fine-tuned model**
+- https://drive.google.com/drive/folders/1RzkWy3StDKgjLPwe17r2_JQJYX9LB5aY?usp=drive_link
 
 **Key Steps:**
 - Mount Google Drive
@@ -202,6 +241,7 @@ The easiest way to run the project is using Google Colab:
 	- Each notebook has an "Open in Colab" badge at the top
 	- Click the badge to open the notebook in Google Colab
 	- Click "Runtime" → "Run all" to execute the entire notebook
+	
 
 ### Workflow Options
 
